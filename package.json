@@ -1,0 +1,20 @@
+{
+  "name": "stream-collect",
+  "version": "1.0.0",
+  "description": "Collects the output of a stream",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "debug": "^2.1.1",
+    "promise-util": "^0.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "expect": "^1.4.0"
+  },
+  "author": "Daniel Lewis",
+  "license": "ISC",
+  "repository": "https://github.com/mrdaniellewis/node-stream-collect.git"
+}
