@@ -39,9 +39,9 @@ collect( file, 'base64' )
 	} );
 ```
 
-## collect.PassThrough
+## collect.PassThrough()
 
-A PassThrough stream that has been augmented with a collect event.  This will be emitted in the end event with the collected contents of the stream.
+A PassThrough stream that has been augmented with a collect event.  This will be emitted in the `end` event with the collected contents of the stream.
 
 ```js
 var collect = require('stream-collect');
@@ -52,3 +52,9 @@ file.pipe( new collect.PassThrough() )
 		// data = contents of the file
 	} );
 ```
+
+## collect.addToStream(stream)
+
+Augment any stream with the collect event used on `collect.PassThrough`.
+
+Returns the augmented stream.
