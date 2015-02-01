@@ -1,5 +1,7 @@
 # Stream collect
 
+[![npm version](https://badge.fury.io/js/stream-collect.svg)](http://badge.fury.io/js/stream-collect)
+
 Collects a readable streams data as a string buffer or, for object streams, an array.
 
 ```bash
