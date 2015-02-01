@@ -89,7 +89,7 @@ describe( 'collect.PassThrough', function() {
 
 	} );
 
-	it( 'can handle having two collect listerers', function(done) {
+	it( 'can handle having two collect listeners', function(done) {
 		var stream = new collect.PassThrough()
 			.on( 'collect', function(data) {
 				// This one will be called first
