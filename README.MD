@@ -1,9 +1,9 @@
 # Stream collect
 
-Methods for collecting a stream of data.
+Collects a readable streams data as a string buffer or, for object streams, an array.
 
 ```bash
-npm install object-stream
+npm install stream-collect
 ```
 
 ## collect( stream, [encoding], [cb] )
