@@ -164,4 +164,22 @@ describe( 'collect', function() {
 
 	} );
 
+	it( 'collects object data', function() {
+
+		var stream = new PassThrough( {objectMode: true});
+
+		var ret = collect(stream);
+		
+		stream.write(1);
+		stream.write(2);
+		stream.end(3);
+
+		return ret
+			.then( function(data) {
+				expect( Array.isArray(data) ).toBe(true);
+				expect( data ).toEqual( [1,2,3] );
+			} );
+
+	} );
+
 } );

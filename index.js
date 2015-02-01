@@ -21,7 +21,7 @@ var addListener = function(name) {
 		return;
 	}
 
-	debug( 'adding collect method' );
+	debug( 'adding collect method', this._readableState.objectMode, this._readableState.encoding );
 
 	var collected;
 	if ( this._readableState.objectMode ) {
@@ -85,7 +85,10 @@ function collect( stream, encoding, cb ) {
 	var defer = promiseUtil.defer();
 
 	stream
-		.pipe( new PassThrough( { encoding: encoding } ) )
+		.pipe( new PassThrough( { 
+			encoding: encoding, 
+			objectMode: stream._readableState.objectMode 
+		} ) )
 		.on( 'collect', function(data) {
 			defer.resolve(data);
 			if (cb) {
