@@ -109,6 +109,113 @@ describe( 'collect.PassThrough', function() {
 
 	} );
 
+	describe( 'as a thenable', function() {
+
+		it( 'resolves as promise using the then method', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+			stream.end(testDataPart2);
+
+			return stream.then( function(data) {
+				expect( Buffer.isBuffer(data) ).toBe(true);
+				expect( data.toString() ).toBe( completeData );
+			} );
+
+		} );
+
+		it( 'allows then to be chained like a promise', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+			stream.end(testDataPart2);
+
+			return stream
+				.then( function(data) {
+					return 'some completly different data';
+				} )
+				.then( function(data) {
+					expect( data ).toBe('some completly different data');
+				} );
+		} );
+
+		it( 'returns the same data for subsequent calls to then', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+			stream.end(testDataPart2);
+
+			return stream
+				.then( function(data) {
+					return stream.then();
+				} )
+				.then( function(data) {
+					expect( Buffer.isBuffer(data) ).toBe(true);
+					expect( data.toString() ).toBe( completeData );
+				} );
+
+		} );
+
+		it( 'rejects as a promise using the then method', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+
+			var promise = stream
+				.then( function(data) {
+					throw new Error( 'Should not have been called' );
+				}, function(e) {
+					expect(e).toBe(error);
+				} );
+
+			// Need to create the error after the promise is created
+			var error = new Error('foo');
+			stream.emit('error', error);
+
+			return promise;
+
+		} );
+
+		it( 'rejects as a promise using the catch method', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+
+			var promise = stream
+				.then( function(data) {
+					throw new Error( 'Should not have been called' );
+				} )
+				.catch( function(e) {
+					expect(e).toBe(error);
+				} );
+
+			// Need to create the error after the promise is created
+			var error = new Error('foo');
+			stream.emit('error', error);
+
+			return promise;
+
+		} );
+
+
+
+		/*it( 'subsequent calls to then return the same data', function() {
+
+			var stream = new collect.PassThrough();
+			stream.write(testDataPart1);
+			stream.end(testDataPart2);
+
+			return stream.then( function(data) {
+					return stream.then();
+				} )
+
+
+		} );*/
+
+		
+
+	} );
+
 
 
 } );

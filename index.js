@@ -102,11 +102,33 @@ function collect( stream, encoding, cb ) {
 
 /**
  *	Returns a PassThrough stream augmented with collect
+ *	The PassThrough stream is also a thenable and can be used as a promise
  *	@param {Object} [options]
  */
 function PassThrough(options) {
-	return addToStream( new stream.PassThrough(options) );
+	stream.PassThrough.call( this, options );
+	addToStream(this);
+	this._resolved = null;
 }
+
+util.inherits( PassThrough, stream.PassThrough );
+
+PassThrough.prototype.then = function( resolve, reject ) {
+
+	if ( !this._resolved ) {
+		this._resolved = promiseUtil.defer();
+		this
+			.on( 'collect', this._resolved.resolve )
+			.on( 'error', this._resolved.reject );
+	}
+	return this._resolved.then( resolve, reject );
+};
+
+PassThrough.prototype.catch = function( reject ) {
+	
+	return this.then( null, reject );
+
+};
 
 module.exports = collect;
 collect.addToStream = addToStream;

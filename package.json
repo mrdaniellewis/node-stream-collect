@@ -1,7 +1,7 @@
 {
   "name": "stream-collect",
   "version": "1.0.2",
-  "description": "Collects the output of a stream",
+  "description": "Collects the output of a stream as callback or promise",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -11,8 +11,8 @@
     "promise-util": "^1.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.1.0",
-    "expect": "^1.4.0"
+    "mocha": "*",
+    "expect": "*"
   },
   "author": "Daniel Lewis",
   "license": "ISC",

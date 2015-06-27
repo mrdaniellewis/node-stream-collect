@@ -43,9 +43,15 @@ collect( file, 'base64' )
 
 ## collect.PassThrough()
 
-A PassThrough stream that has been augmented with a collect event.  This will be emitted in the `end` event with the collected contents of the stream.
+Creates a PassThrough stream that that has an additional 'collect' and acts as a Promise.
+
+The `collect` event returns the collected data.  It is called as part of the `end` event.
+
+The PassThrough stream has `then` and `catch` methods added to acts like a Promise (or strictly a "thenable").
 
 ```js
+
+// Using the collect event
 var collect = require('stream-collect');
 
 var file = fs.createReadableStream( 'myfile' );
@@ -53,10 +59,18 @@ file.pipe( new collect.PassThrough() )
 	.on( 'collect', function(data) {
 		// data = contents of the file
 	} );
+
+// As a Promise
+var file = fs.createReadableStream( 'myfile' );
+file.pipe( new collect.PassThrough() )
+	.then(data) {
+		// data = contents of the file
+	} );
+
 ```
 
 ## collect.addToStream(stream)
 
-Augment any stream with the collect event used on `collect.PassThrough`.
+Augment any stream with a `collect` event.
 
 Returns the augmented stream.
