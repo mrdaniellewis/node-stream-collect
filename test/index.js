@@ -197,22 +197,27 @@ describe( 'collect.PassThrough', function() {
 
 		} );
 
+		it( 'passes errors from a piped stream', function() {
 
+			var stream = new PassThrough();
+			var error = new Error('foo');
 
-		/*it( 'subsequent calls to then return the same data', function() {
+			stream.write('foobar');
 
-			var stream = new collect.PassThrough();
-			stream.write(testDataPart1);
-			stream.end(testDataPart2);
-
-			return stream.then( function(data) {
-					return stream.then();
+			var promise = stream
+				.pipe( new collect.PassThrough() )
+				.then( function(data) {
+					throw new Error( 'Should not have been called' );
 				} )
+				.catch( function(e) {
+					expect(e).toBe(error);
+				} );
+			
+			stream.emit('error',error);
 
+			return promise;
 
-		} );*/
-
-		
+		} );
 
 	} );
 

@@ -109,6 +109,10 @@ function PassThrough(options) {
 	stream.PassThrough.call( this, options );
 	addToStream(this);
 	this._resolved = null;
+
+	this.on( 'pipe', function(source) { 
+		source.on( 'error', this.emit.bind( this, 'error' ) );
+	}.bind(this) );
 }
 
 util.inherits( PassThrough, stream.PassThrough );

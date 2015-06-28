@@ -49,6 +49,8 @@ The `collect` event returns the collected data.  It is called as part of the `en
 
 The PassThrough stream has `then` and `catch` methods added to acts like a Promise (or strictly a "thenable").
 
+When piped, any errors from the source stream will be passed to this stream.
+
 ```js
 
 // Using the collect event
