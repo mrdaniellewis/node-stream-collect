@@ -41,35 +41,37 @@ collect( file, 'base64' )
 	} );
 ```
 
-## collect.PassThrough()
+## `collect.stream()` / `collect.PassThrough()`
 
-Creates a PassThrough stream that that has an additional 'collect' and acts as a Promise.
 
-The `collect` event returns the collected data.  It is called as part of the `end` event.
-
-The PassThrough stream has `then` and `catch` methods added to acts like a Promise (or strictly a "thenable").
-
-When piped, any errors from the source stream will be passed to this stream.
+`collect.stream()` creates a `stream.PassThrough` with an additional 'collect' event that can also act as a Promise.
 
 ```js
 
-// Using the collect event
 var collect = require('stream-collect');
 
+// Using the collect event
 var file = fs.createReadableStream( 'myfile' );
-file.pipe( new collect.PassThrough() )
+file.pipe( collect.stream() )
 	.on( 'collect', function(data) {
 		// data = contents of the file
 	} );
 
 // As a Promise
 var file = fs.createReadableStream( 'myfile' );
-file.pipe( new collect.PassThrough() )
+file.pipe( collect.stream() )
 	.then(data) {
 		// data = contents of the file
 	} );
 
 ```
+
+The `collect` event is called as part of the `end` event.
+
+When collect is piped, any errors from the source stream will be passed to this stream and can be caught in `then` and `catch` when used as a Promise.
+
+`collect.PassThrough()` is an alternative name for `collect.stream`.  Both can be used with or without the `new` operator.
+
 
 ## collect.addToStream(stream)
 
