@@ -241,6 +241,50 @@ describe( 'collect.PassThrough', function() {
 
 } );
 
+describe( 'collect.PassThroughObject', function() {
+
+	it( 'creates a collect.PassThrough instance', function( ) {	
+		expect( new collect.PassThroughObject() ).toBeA( collect.PassThrough );
+	} );
+
+	it( 'is a PassThrough stream', function( ) {	
+		expect( new collect.PassThroughObject() ).toBeA( PassThrough );
+	} );
+
+	it( 'is can be instigated without new', function( ) {	
+		expect( collect.PassThroughObject() ).toBeA( PassThrough );
+	} );
+
+	it( 'collect.objectStream is a collect.PassThroughStream', function( ) {	
+		expect( collect.objectStream ).toBe( collect.PassThroughObject );
+	} );
+
+	it( 'creates a PassThrough instance with objectMode on', function( ) {	
+		var objectStream = collect.objectStream();
+
+		expect( objectStream._readableState.objectMode ).toBe( true );
+		expect( objectStream._writableState.objectMode ).toBe( true );
+	} );
+
+	it( 'collects as an object stream', function() {	
+		
+		var stream = new collect.PassThrough( {objectMode: true });
+		var ob1 = {};
+		var ob2 = {};
+		stream.write( ob1 );
+		stream.end( ob2 );
+
+		return stream.pipe( collect.objectStream() )	
+			.then( function(data) {
+				expect( data[0] ).toBe(ob1);
+				expect( data[1] ).toBe(ob2);
+
+			} );
+	} );
+
+
+} );
+
 
 describe( 'collect', function() {
 

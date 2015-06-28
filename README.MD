@@ -72,6 +72,9 @@ When collect is piped, any errors from the source stream will be passed to this 
 
 `collect.PassThrough()` is an alternative name for `collect.stream`.  Both can be used with or without the `new` operator.
 
+## `collect.objectStream()` / `collect.PassThroughObject()`
+
+Returns a new `collect.stream` with `objectMode` set to true.
 
 ## collect.addToStream(stream)
 

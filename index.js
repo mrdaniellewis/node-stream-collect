@@ -111,7 +111,6 @@ function PassThrough(options) {
 		return new PassThrough(options);
 	}
 
-
 	stream.PassThrough.call( this, options );
 	addToStream(this);
 	this._resolved = null;
@@ -140,6 +139,16 @@ PassThrough.prototype.catch = function( reject ) {
 
 };
 
+/**
+ *	A PassThrough set to objectMode
+ */
+function PassThroughObject(options) {
+	options = options || {};
+	options.objectMode = true;
+	return new PassThrough(options);
+}
+
 module.exports = collect;
 collect.addToStream = addToStream;
 collect.PassThrough = collect.stream = PassThrough;
+collect.PassThroughObject = collect.objectStream = PassThroughObject;
