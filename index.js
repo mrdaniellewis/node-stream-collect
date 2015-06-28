@@ -142,4 +142,4 @@ PassThrough.prototype.catch = function( reject ) {
 
 module.exports = collect;
 collect.addToStream = addToStream;
-collect.PassThrough = PassThrough;
+collect.PassThrough = collect.stream = PassThrough;
