@@ -106,6 +106,12 @@ function collect( stream, encoding, cb ) {
  *	@param {Object} [options]
  */
 function PassThrough(options) {
+	
+	if ( !(this instanceof PassThrough ) ) {
+		return new PassThrough(options);
+	}
+
+
 	stream.PassThrough.call( this, options );
 	addToStream(this);
 	this._resolved = null;

@@ -14,6 +14,18 @@ var completeData = 'Some data to go into the stream';
 
 describe( 'collect.PassThrough', function() {
 
+	it( 'creates a collect.PassThrough instance', function( ) {	
+		expect( new collect.PassThrough() ).toBeA( collect.PassThrough );
+	} );
+
+	it( 'is a PassThrough stream', function( ) {	
+		expect( new collect.PassThrough() ).toBeA( PassThrough );
+	} );
+
+	it( 'is can be instigated without new', function( ) {	
+		expect( collect.PassThrough() ).toBeA( PassThrough );
+	} );
+
 	it( 'collects buffer data', function(done) {
 		var stream = new collect.PassThrough()
 			.on( 'collect', function(data) {
