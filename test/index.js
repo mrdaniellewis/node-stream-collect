@@ -27,7 +27,7 @@ describe( 'collect.PassThrough', function() {
 	} );
 
 	it( 'collect.stream is a collect.PassThrough', function( ) {	
-		expect( collect.stream ).toBeA( collect.PassThrough );
+		expect( collect.stream ).toBe( collect.PassThrough );
 	} );
 
 	it( 'collects buffer data', function(done) {
