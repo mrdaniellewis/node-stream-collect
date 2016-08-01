@@ -88,7 +88,7 @@ describe( 'collect.PassThrough', function() {
 		// If debug is on this is a little slow
 		this.timeout( 5000 );
 
-		var file = path.resolve( __dirname, 'war-and-peace.txt' );
+		var file = path.resolve( __dirname, 'the-machine-stops.txt' );
 		var fileContents = fs.readFileSync( 
 			file, 
 			{encoding: 'utf8'}
