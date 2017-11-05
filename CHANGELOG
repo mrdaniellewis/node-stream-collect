@@ -1,0 +1,9 @@
+# 2017-11-05 v2.0.0
+
+- Updated for node 6
+- Renamed `PassThrough` to `Collect`
+- Renamed `PassThroughObject` to `CollectObjects`
+- Added `Collect.prototype.collect` method
+- Deprecated `Collect` prototype methods `then` and `catch`
+- `collect` callback now returns an error as the first argument
+- Use jest and eslint for development

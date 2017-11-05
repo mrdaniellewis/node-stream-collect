@@ -2,81 +2,73 @@
 
 [![npm version](https://badge.fury.io/js/stream-collect.svg)](http://badge.fury.io/js/stream-collect)
 
-Collects a readable streams data as a string buffer or, for object streams, an array.
+Collects a readable streams data as a string, buffer or, for object streams, an array.
 
 ```bash
 npm install stream-collect
 ```
 
-## collect( stream, [encoding], [cb] )
+## `collect.Collect(options)`
 
-Collect the contents of a stream.  The collected data will either be a `Buffer`, `String` or `Array` depending on whether `encoding` has been supplied, or it is an object stream.
-
-Returns a `Promise` that will resolve with the collected data.
-
-* `stream` the stream to collect
-* `encoding` the encoding to return data in
-* `cb` a callback that will be called with the collected data. 
-
+Create a pass through stream with a `collect()` method and `collect` event.
 
 ```js
-var collect = require('stream-collect');	
-var file = fs.createReadableStream( 'myfile' );
+const { Collect } = require('stream-collect');
+const file = fs.createReadableStream('myfile');
+
+// Collect using a promise
+file.pipe(new Collect())
+  .collect()
+  .then(buffer => { /* use contents */ });
+
+// Collect using an event
+file.pipe(new Collect())
+  .on('collect', buffer => { /* use contents */ });
+
+// Collect as a string rather than a buffer
+file.pipe(new Collect({ encoding: 'utf-8' }))
+  .collect()
+  .then(string => { /* use contents */ });
+
+// Collect an object stream
+file
+  .pipe(new Transform({
+    readableObjectMode: true,
+    transform(chunk, encoding, callback) {
+      chunk.toString().split('').forEach(char = this.push(char));
+      callback();
+    }
+  })
+  .pipe(new Collect())
+  .on('collect', array => { /* -> array of characters */ });  
+
+```
+
+## `collect(stream, [encoding], [cb])`
+
+Collect a streams contents returning a promise or callback.
+
+```js
+const collect = require('stream-collect');
+const file = fs.createReadableStream('myfile');
 
 // Collect using a promise
 collect(file)
-	.then( function(theWholeFile) {
-		// Do something
-	} );
+  .then(fileContents => { /* use contents */ });
 
 // Collect using a callback
-collect( file, function(theWholeFile) {
-	// Do something
-} )
+collect(file, (error, fileContents) => { /* use contents */ });
 
 // Specify an encoding
-collect( file, 'base64' )
-	.then( function(theWholeFileInBase64) {
-		// Do something
-	} );
+collect(file, 'base64')
+  .then(fileContents => { /* use contents */ });
 ```
 
-## `collect.stream()` / `collect.PassThrough()`
+## `collect.CollectObjects()`
 
+A `Collect` stream with `objectMode` set to true.
 
-`collect.stream()` creates a `stream.PassThrough` with an additional 'collect' event that can also act as a Promise.
-
-```js
-
-var collect = require('stream-collect');
-
-// Using the collect event
-var file = fs.createReadableStream( 'myfile' );
-file.pipe( collect.stream() )
-	.on( 'collect', function(data) {
-		// data = contents of the file
-	} );
-
-// As a Promise
-var file = fs.createReadableStream( 'myfile' );
-file.pipe( collect.stream() )
-	.then(data) {
-		// data = contents of the file
-	} );
-
-```
-
-The `collect` event is called as part of the `end` event.
-
-When collect is piped, any errors from the source stream will be passed to this stream and can be caught in `then` and `catch` when used as a Promise.
-
-`collect.PassThrough()` is an alternative name for `collect.stream`.  Both can be used with or without the `new` operator.
-
-## `collect.objectStream()` / `collect.PassThroughObject()`
-
-Returns a new `collect.stream` with `objectMode` set to true.
-
-## collect.addToStream(stream)
+## `collect.addToStream(stream)`
 
 Augment any stream with a `collect` event.
 
