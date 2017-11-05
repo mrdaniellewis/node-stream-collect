@@ -7,3 +7,7 @@
 - Deprecated `Collect` prototype methods `then` and `catch`
 - `collect` callback now returns an error as the first argument
 - Use jest and eslint for development
+
+# 2017-11-05 v2.1.0
+
+- Removed passing errors to a piped stream

@@ -132,24 +132,6 @@ describe('collect.Collect', () => {
         .then(() => { throw new Error('Should not have been called'); })
         .catch(e => expect(e).toBe(error));
     });
-
-    it('passes errors from a piped stream', () => {
-      const stream = new PassThrough();
-      const error = new Error('foo');
-
-      stream.write('foobar');
-
-      const promise = stream.pipe(new collect.Collect()).collect();
-      stream.emit('error', error);
-
-      return promise
-        .then(() => {
-          throw new Error('Should not have been called');
-        })
-        .catch((e) => {
-          expect(e).toBe(error);
-        });
-    });
   });
 
   describe('#then (deprecated)', () => {

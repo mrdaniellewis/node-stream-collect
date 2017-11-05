@@ -72,8 +72,6 @@ class Collect extends PassThrough {
     super(options);
     addToStream(this);
     this._collected = null;
-
-    this.on('pipe', source => source.on('error', e => this.emit('error', e)));
   }
 
   collect() {
