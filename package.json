@@ -1,6 +1,6 @@
 {
   "name": "stream-collect",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Collects the output of a stream",
   "keywords": [
     "stream",
