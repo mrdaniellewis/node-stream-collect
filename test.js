@@ -2,10 +2,10 @@
 
 'use strict';
 
-const collect = require('./');
 const fs = require('fs');
 const path = require('path');
 const { PassThrough } = require('stream');
+const collect = require('./');
 
 const testDataPart1 = 'Some data to ';
 const testDataPart2 = 'go into the stream';
@@ -303,4 +303,3 @@ describe('collect.addToStream', () => {
     stream.end(testDataPart2);
   });
 });
-
