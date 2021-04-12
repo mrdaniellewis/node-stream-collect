@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const { PassThrough } = require('stream');
-const collect = require('./');
+const collect = require('.');
 
 const testDataPart1 = 'Some data to ';
 const testDataPart2 = 'go into the stream';
@@ -93,7 +93,6 @@ describe('collect.Collect', () => {
           done();
         });
 
-
       stream.write(testDataPart1);
       stream.end(testDataPart2);
     });
@@ -130,7 +129,7 @@ describe('collect.Collect', () => {
 
       return promise
         .then(() => { throw new Error('Should not have been called'); })
-        .catch(e => expect(e).toBe(error));
+        .catch((e) => expect(e).toBe(error));
     });
   });
 
@@ -155,7 +154,7 @@ describe('collect.Collect', () => {
       const promise = stream
         .then(
           () => { throw new Error('Should not have been called'); },
-          e => expect(e).toBe(error),
+          (e) => expect(e).toBe(error),
         );
 
       stream.emit('error', error);
@@ -172,7 +171,7 @@ describe('collect.Collect', () => {
       stream.write('foobar');
 
       const promise = stream
-        .catch(e => expect(e).toBe(error));
+        .catch((e) => expect(e).toBe(error));
 
       stream.emit('error', error);
 

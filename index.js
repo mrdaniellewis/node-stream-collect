@@ -131,7 +131,6 @@ function collect(stream, encoding, cb = () => {}) {
     });
 }
 
-
 module.exports = collect;
 collect.addToStream = addToStream;
 collect.Collect = Collect;
